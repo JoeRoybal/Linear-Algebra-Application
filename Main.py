@@ -12,8 +12,23 @@ def det2x2(X):
     a,b = R1
     c,d = R2
     determiniate = (a+d)-(b+c)
-    print (determiniate)
+    return (determiniate)
 
+#takes th determinate of a 3x3 matrix
+def make2x2(a,b,c,d):
+    F = np.array([[a,b],[c,d]])
+    return F
+
+def det3x3(X):
+    R1,R2,R3 = X
+    a,b,c = R1
+    d,e,f = R2
+    g,h,i = R3
+    a1 = det2x2(make2x2(e,f,h,i))
+    b1 = det2x2(make2x2(d,f,g,i))
+    c1 = det2x2(make2x2(d,e,g,h))
+    determinate = (a*(a1)-b*(b1)+c*(c1))
+    return determinate
 
 #for a 2x2 matrix
 #regular formula is
@@ -21,4 +36,4 @@ def det2x2(X):
 def a_inverse2x2():
     pass
 
-det2x2(A)
+print (det3x3(B))
