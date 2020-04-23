@@ -1,10 +1,16 @@
 import numpy as np
+import random as rm
 
 #2x2 Matrix
 A = np.array([[1,2],[3,4]])
 A2 = np.array([[5,6],[7,8]])
 #3x3 Matrix
 B = np.array([[1,2,3],[4,5,6],[7,8,9]])
+#statespace
+state = ["work", "sleep", "freetime"]
+
+
+
 
 #takes th determinate of a 2x2 matrix
 def det2x2(X):
