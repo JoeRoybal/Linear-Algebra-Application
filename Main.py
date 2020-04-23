@@ -14,7 +14,7 @@ state = ["work", "sleep", "freetime"]
 transitionName = [["WW", "WS", "WF"], ["SW", "SS", "SF"], ["FW", "FS", "FF"]]
 # Probabilities matrix (transition matrix) ~ each row [x,x,x] = 1
 transitionMatrix = [[.2, .5, .3], [.0, .9, .1], [.3, .3, .4]]
-
+# ############################################################
 
 def initializationCheck():
     if sum(transitionMatrix[0]) + sum(transitionMatrix[1]) + sum(transitionMatrix[2]) != 3:
@@ -166,6 +166,10 @@ def det3x3(X):
 def a_inverse2x2():
     pass
 
+
+#Matrix Multiplication is Associative
+def associative():
+    pass
 
 # what is being called
 det3x3(B)
