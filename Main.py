@@ -51,6 +51,7 @@ def what_will_I_do_today(days):
                 prob = prob * .3
                 activityToday = "freetime"
                 activityList.append("freetime")
+
         # if the activity for today is sleep
         elif activityToday == "sleep":
             # pick a random transitionName
@@ -114,40 +115,49 @@ def markovChain():
     print("The probability of starting at state:'sleep' and ending at state:'freetime'= " + str(percentage) + "%")
 
 
-# takes th determinate of a 2x2 matrix
+# takes the determinant of a 2x2 matrix
 def det2x2(X):
     R1, R2 = X
     if len(X) and len(R1) and len(R2) != 2:
         print("ERROR: Invalid matrix configuration")
     else:
         R1, R2 = X
+        print("Matrix =\n", X)
         print(" Row 1 =", R1, "\n", "Row 2 =", R2)
         a, b = R1
         c, d = R2
         print(" a =", a, ", b =", b, ", c =", c, ", d =", d)
         determinate = (a * d) - (b * c)
-        return print(" (a * d) - (b * c) = (", a,"*",d,") - (",b,"*",c,") =", determinate)
+        print(" (a * d) - (b * c) = (", a, "*", d, ") - (", b, "*", c, ") =", determinate, "\n")
+        return determinate
 
 
-# takes th determinate of a 3x3 matrix
+# converts 4 numbers into 2x2 matrix
 def make2x2(a, b, c, d):
     F = np.array([[a, b], [c, d]])
     return F
 
 
+# takes the determinant of a 3x3 matrix
 def det3x3(X):
-    if len(X) != 3:
-        print("ERROR: Ivalid matrix configuration")
+    R1, R2, R3 = X
+    if len(X) and len(R1) and len(R2) and len(R3) != 3:
+        print("ERROR: Invalid matrix configuration")
     else:
         R1, R2, R3 = X
+        print("Matrix =\n", X)
+        print("For the 3x3 matrix \n Row 1 =", R1, "\n", "Row 2 =", R2, "\n", "Row 3 =", R3)
         a, b, c = R1
         d, e, f = R2
         g, h, i = R3
-        a1 = det2x2(make2x2(e, f, h, i))
-        b1 = det2x2(make2x2(d, f, g, i))
-        c1 = det2x2(make2x2(d, e, g, h))
-        determinate = (a * (a1) - b * (b1) + c * (c1))
-        return determinate
+        print(" a =", a, ", b =", b, ", c =", c, ", d =", d, " e =", e,
+              ", f =", f, ", g =", g, " h =", h, ", i =", i, "\n")
+        detA = print("For the 2x2 matrix a =", a), det2x2(make2x2(e, f, h, i))
+        detB = print("For the 2x2 matrix b =", b), det2x2(make2x2(d, f, g, i))
+        detC = print("For the 2x2 matrix c =", c), det2x2(make2x2(d, e, g, h))
+        determinate = ((a * detA[1]) - (b * detB[1]) + (c * detC[1]))
+        return print("(a * (detA) - b * (detB) + c * (detC)) = (", a, "* (", detA[1], ") -", b, "* ("
+                     , detB[1], ") +", c, "* (", detC[1], ")=", determinate, "\n")
 
 
 # for a 2x2 matrix
@@ -158,4 +168,4 @@ def a_inverse2x2():
 
 
 # what is being called
-det2x2(A)
+det3x3(B)
