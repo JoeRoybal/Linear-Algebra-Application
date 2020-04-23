@@ -11,16 +11,18 @@ B = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
 # statespace
 state = ["work", "sleep", "freetime"]
 # possible sequences of events
-transitionName = [["WW", "WS", "WF"],["SW","SS","SF"],["FW","FS","FF"]]
+transitionName = [["WW", "WS", "WF"], ["SW", "SS", "SF"], ["FW", "FS", "FF"]]
 # Probabilities matrix (transition matrix) ~ each row [x,x,x] = 1
-transitionMatrix = [[.2,.5,.3],[.0,.9,.1],[.3,.3,.4]]
+transitionMatrix = [[.2, .5, .3], [.0, .9, .1], [.3, .3, .4]]
+
 
 def initializationCheck():
-    if sum(transitionMatrix[0]) + sum(transitionMatrix[1]) + sum(transitionMatrix[1]) != 3:
+    if sum(transitionMatrix[0]) + sum(transitionMatrix[1]) + sum(transitionMatrix[2]) != 3:
         print("Invalid transition matrix")
         return -1
     else:
         pass
+
 
 def what_will_I_do_today(days):
     # Choose the starting state
@@ -33,7 +35,7 @@ def what_will_I_do_today(days):
         # if the activity for today is work
         if activityToday == "work":
             # pick a random transitionName
-            change = np.random.choice(transitionName[0],replace=True,p=transitionMatrix[0])
+            change = np.random.choice(transitionName[0], replace=True, p=transitionMatrix[0])
             # if the transitionName is "WW"
             if change == "WW":
                 prob = prob * .2
@@ -52,7 +54,7 @@ def what_will_I_do_today(days):
         # if the activity for today is sleep
         elif activityToday == "sleep":
             # pick a random transitionName
-            change = np.random.choice(transitionName[1],replace=True,p=transitionMatrix[1])
+            change = np.random.choice(transitionName[1], replace=True, p=transitionMatrix[1])
             # if the transitionName is "SW"
             if change == "SW":
                 prob = prob * .0
@@ -72,7 +74,7 @@ def what_will_I_do_today(days):
         # if the activity for today is freetime
         elif activityToday == "freetime":
             # pick a random transitionName
-            change = np.random.choice(transitionName[2],replace=True,p=transitionMatrix[2])
+            change = np.random.choice(transitionName[2], replace=True, p=transitionMatrix[2])
             # if the transitionName is "FW"
             if change == "FW":
                 prob = prob * .3
@@ -94,23 +96,22 @@ def what_will_I_do_today(days):
 
 def markovChain():
     initializationCheck()
-    what_will_I_do_today(3)     #3 is days
+    what_will_I_do_today(3)  # 3 is days
     # To save every activityList
     list_activity = []
     count = 0
     # `Range` starts from the first count up until but excluding the last count
-    for iterations in range(1,10000):
-            list_activity.append(what_will_I_do_today(2))
+    for iterations in range(1, 10000):
+        list_activity.append(what_will_I_do_today(2))
     # Check out all the `activityList` we collected
-    #print(list_activity)
+    # print(list_activity)
     # Iterate through the list to get a count of all activities ending in state:'v'
     for smaller_list in list_activity:
-        if(smaller_list[2] == "freetime"):
+        if (smaller_list[2] == "freetime"):
             count += 1
     # Calculate the probability of starting from state:'sleep' and ending at state:'freetime'
-    percentage = (count/10000) * 100
+    percentage = (count / 10000) * 100
     print("The probability of starting at state:'sleep' and ending at state:'freetime'= " + str(percentage) + "%")
-
 
 
 # takes th determinate of a 2x2 matrix
@@ -120,10 +121,12 @@ def det2x2(X):
         print("ERROR: Invalid matrix configuration")
     else:
         R1, R2 = X
+        print(" Row 1 =", R1, "\n", "Row 2 =", R2)
         a, b = R1
         c, d = R2
+        print(" a =", a, ", b =", b, ", c =", c, ", d =", d)
         determinate = (a * d) - (b * c)
-        return (determinate)
+        return print(" (a * d) - (b * c) = (", a,"*",d,") - (",b,"*",c,") =", determinate)
 
 
 # takes th determinate of a 3x3 matrix
@@ -153,7 +156,6 @@ def det3x3(X):
 def a_inverse2x2():
     pass
 
+
 # what is being called
-
-
-
+det2x2(A)
