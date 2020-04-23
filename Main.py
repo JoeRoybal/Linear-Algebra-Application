@@ -14,6 +14,8 @@ state = ["work", "sleep", "freetime"]
 transitionName = [["WW", "WS", "WF"], ["SW", "SS", "SF"], ["FW", "FS", "FF"]]
 # Probabilities matrix (transition matrix) ~ each row [x,x,x] = 1
 transitionMatrix = [[.2, .5, .3], [.0, .9, .1], [.3, .3, .4]]
+
+
 # ############################################################
 
 def initializationCheck():
@@ -163,13 +165,37 @@ def det3x3(X):
 # for a 2x2 matrix
 # regular formula is
 # A^-1 = 1/det(A) * [[d, -b],[-c,a]]
-def a_inverse2x2():
-    pass
+def flipflop(X):
+    R1, R2 = X
+    if len(X) and len(R1) and len(R2) != 2:
+        print("ERROR: Invalid matrix configuration")
+    else:
+        R1, R2 = X
+        print("Matrix =\n", X,"\n")
+        a, b = R1
+        c, d = R2
+        print("Matrix flip flopped =")
+        X = make2x2(d, -b, -c, a)
+        print(X, "\n")
+        return X
 
 
-#Matrix Multiplication is Associative
+def a_inverse2x2(X):
+    R1, R2 = X
+    if len(X) and len(R1) and len(R2) != 2:
+        print("ERROR: Invalid matrix configuration")
+    else:
+        Y = flipflop(X)
+        a_inverse = np.dot((1 / det2x2(X)), Y)
+        # \n & \t are used for formatting
+        print("A inverse = \n 1/det(A) *", Y[0],"\n","\t\t   ",Y[1],"\n  =", a_inverse[0],"\n   ",a_inverse[1])
+        return a_inverse
+
+
+# Matrix Multiplication is Associative
 def associative():
     pass
 
+
 # what is being called
-det3x3(B)
+a_inverse2x2(A)
