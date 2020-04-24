@@ -28,7 +28,7 @@ def initializationCheck():
 
 def what_will_I_do_today(days):
     # Choose the starting state
-    activityToday = "work"
+    activityToday = "sleep"
     activityList = [activityToday]
     i = 0
     prob = 1
@@ -99,7 +99,7 @@ def what_will_I_do_today(days):
 
 def markovChain():
     initializationCheck()
-    what_will_I_do_today(3)  # 3 is days
+    what_will_I_do_today(2)  # 2 is days
     # To save every activityList
     list_activity = []
     count = 0
@@ -198,4 +198,6 @@ def associative():
 
 
 # what is being called
-a_inverse2x2(A)
+#what_will_I_do_today(2)
+markovChain()
+
