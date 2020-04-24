@@ -8,14 +8,16 @@ A2 = np.array([[5, 6], [7, 8]])
 B = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
 
 # #################Needed for Markov Chain####################
-# statespace
-state = ["work", "sleep", "freetime"]
-# possible sequences of events
+# The statespace
+states = ["Work", "Sleep", "Free Time"]
+
+# Possible sequences of events
 transitionName = [["WW", "WS", "WF"], ["SW", "SS", "SF"], ["FW", "FS", "FF"]]
-# Probabilities matrix (transition matrix) ~ each row [x,x,x] = 1
-transitionMatrix = [[.2, .5, .3], [.0, .9, .1], [.3, .3, .4]]
 
-
+# Probabilities matrix (transition matrix)
+transitionMatrix = [[.2, .5, .3],
+                    [.4, .5, .1],
+                    [.3, .3, .4]]
 # ############################################################
 
 def initializationCheck():
@@ -28,93 +30,80 @@ def initializationCheck():
 
 def what_will_I_do_today(days):
     # Choose the starting state
-    activityToday = "sleep"
+    activityToday = "Sleep"
+    # print("Start state: " + activityToday)
     activityList = [activityToday]
     i = 0
     prob = 1
-    # while the number of days does not equal 0
     while i != days:
-        # if the activity for today is work
-        if activityToday == "work":
-            # pick a random transitionName
+        if activityToday == "Work":
             change = np.random.choice(transitionName[0], replace=True, p=transitionMatrix[0])
-            # if the transitionName is "WW"
             if change == "WW":
-                prob = prob * .2
-                activityList.append("work")
+                prob = prob * 0.2
+                activityList.append("Work")
                 pass
-            # if the transitionName is "WS"
             elif change == "WS":
-                prob = prob * .5
-                activityToday = "sleep"
-                activityList.append("sleep")
-            # if the transitionName is "WF"
+                prob = prob * 0.5
+                activityToday = "Sleep"
+                activityList.append("Sleep")
             else:
-                prob = prob * .3
-                activityToday = "freetime"
-                activityList.append("freetime")
+                prob = prob * 0.3
+                activityToday = "Free Time"
+                activityList.append("Free Time")
 
-        # if the activity for today is sleep
-        elif activityToday == "sleep":
-            # pick a random transitionName
+        elif activityToday == "Sleep":
             change = np.random.choice(transitionName[1], replace=True, p=transitionMatrix[1])
-            # if the transitionName is "SW"
             if change == "SW":
-                prob = prob * .0
-                activityList.append("work")
-                pass
-            # if the transitionName is "SS"
+                prob = prob * 0.4
+                activityToday = "Work"
+                activityList.append("Work")
             elif change == "SS":
-                prob = prob * .9
-                activityToday = "sleep"
-                activityList.append("sleep")
-            # if the transitionName is "SF"
-            else:
-                prob = prob * .1
-                activityToday = "freetime"
-                activityList.append("freetime")
-
-        # if the activity for today is freetime
-        elif activityToday == "freetime":
-            # pick a random transitionName
-            change = np.random.choice(transitionName[2], replace=True, p=transitionMatrix[2])
-            # if the transitionName is "FW"
-            if change == "FW":
-                prob = prob * .3
-                activityList.append("freetime")
+                prob = prob * 0.5
+                activityList.append("Sleep")
                 pass
-            # if the transitionName is "FS"
-            elif change == "FS":
-                prob = prob * .3
-                activityToday = "sleep"
-                activityList.append("sleep")
-            # if the transitionName is "FF"
             else:
-                prob = prob * .4
-                activityToday = "work"
-                activityList.append("work")
+                prob = prob * 0.1
+                activityToday = "Free Time"
+                activityList.append("Free Time")
+
+        elif activityToday == "Free Time":
+            change = np.random.choice(transitionName[2], replace=True, p=transitionMatrix[2])
+            if change == "FW":
+                prob = prob * 0.3
+                activityToday = "Work"
+                activityList.append("Work")
+            elif change == "FS":
+                prob = prob * 0.3
+                activityToday = "Sleep"
+                activityList.append("Sleep")
+            else:
+                prob = prob * 0.4
+                activityList.append("Free Time")
+                pass
         i += 1
     return activityList
 
 
 def markovChain():
-    initializationCheck()
-    what_will_I_do_today(2)  # 2 is days
     # To save every activityList
     list_activity = []
     count = 0
+
     # `Range` starts from the first count up until but excluding the last count
     for iterations in range(1, 10000):
         list_activity.append(what_will_I_do_today(2))
+
     # Check out all the `activityList` we collected
     # print(list_activity)
-    # Iterate through the list to get a count of all activities ending in state:'v'
+
+    # Iterate through the list to get a count of all activities ending in state:'Free Time'
     for smaller_list in list_activity:
-        if (smaller_list[2] == "freetime"):
+        if (smaller_list[2] == "Free Time"):
             count += 1
-    # Calculate the probability of starting from state:'sleep' and ending at state:'freetime'
+
+    # Calculate the probability of starting from state:'Sleep' and ending at state:'Free Time'
     percentage = (count / 10000) * 100
-    print("The probability of starting at state:'sleep' and ending at state:'freetime'= " + str(percentage) + "%")
+    print("The probability of starting at state:'Sleep' and ending at state:'Free Time'= " + str(percentage) + "%")
 
 
 # takes the determinant of a 2x2 matrix
@@ -171,7 +160,7 @@ def flipflop(X):
         print("ERROR: Invalid matrix configuration")
     else:
         R1, R2 = X
-        print("Matrix =\n", X,"\n")
+        print("Matrix =\n", X, "\n")
         a, b = R1
         c, d = R2
         print("Matrix flip flopped =")
@@ -188,7 +177,7 @@ def a_inverse2x2(X):
         Y = flipflop(X)
         a_inverse = np.dot((1 / det2x2(X)), Y)
         # \n & \t are used for formatting
-        print("A inverse = \n 1/det(A) *", Y[0],"\n","\t\t   ",Y[1],"\n  =", a_inverse[0],"\n   ",a_inverse[1])
+        print("A inverse = \n 1/det(A) *", Y[0], "\n", "\t\t   ", Y[1], "\n  =", a_inverse[0], "\n   ", a_inverse[1])
         return a_inverse
 
 
@@ -198,6 +187,5 @@ def associative():
 
 
 # what is being called
-#what_will_I_do_today(2)
+# what_will_I_do_today(2)
 markovChain()
-
